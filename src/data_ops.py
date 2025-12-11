@@ -40,9 +40,15 @@ def get_driver():
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    if os.path.exists("/usr/bin/chromium"):
+
+    if os.environ.get("CHROME_BIN"):
+        chrome_options.binary_location = os.environ.get("CHROME_BIN")
+        service = Service(ChromeDriverManager().install())
+
+    elif os.path.exists("/usr/bin/chromium"):
         chrome_options.binary_location = "/usr/bin/chromium"
         service = Service("/usr/bin/chromedriver")
+
     else:
         service = Service(ChromeDriverManager().install())
 
