@@ -1,6 +1,9 @@
 pandas
 numpy
+matplotlib
+seaborn
 selenium
 webdriver-manager
 beautifulsoup4
 lxml
+streamlit

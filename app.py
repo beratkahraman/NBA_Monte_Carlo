@@ -13,6 +13,7 @@ st.markdown("""
     .stButton>button { width: 100%; border-radius: 10px; height: 3em; font-weight: bold; }
     .stProgress > div > div > div > div { background-color: #4CAF50; }
     .reportview-container .main .block-container { max-width: 1000px; }
+    div[data-testid="stMetricValue"] { font-size: 24px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -24,9 +25,7 @@ def clear_cache():
 
 
 st.title("🏀 NBA Monte Carlo Simülasyon Motoru")
-st.markdown("""
-**Veri Odaklı Karar Destek Sistemi** | *Stokastik Modelleme & Uzman Sistem Mimarisi*
-""")
+st.markdown("**Veri Odaklı Karar Destek Sistemi** | *Stokastik Modelleme & Uzman Sistem Mimarisi*")
 
 with st.expander("ℹ️ Bu Sistem Nasıl Çalışır? (Metodoloji)"):
     c1, c2 = st.columns([2, 1])
@@ -34,30 +33,33 @@ with st.expander("ℹ️ Bu Sistem Nasıl Çalışır? (Metodoloji)"):
         st.markdown("""
         Bu proje, klasik bir "Yapay Zeka" (Machine Learning) modeli değil, basketbol dinamiklerini matematiksel kurallara döken bir **Uzman Sistem** ve **İstatistiksel Simülatör**dür.
 
-        **1. Veri Madenciliği (Data Mining):**
-        Basketball-Reference ve ESPN üzerinden takımların *Pace*, *Offensive Rating* ve *Four Factors* verileri anlık olarak çekilir.
+        **1. Dinamik Veri (Dynamic Data):**
+        B-Ref ve ESPN üzerinden güç, form, sakatlık ve yorgunluk (B2B) verileri anlık çekilir.
 
-        **2. Stil Analizi (Pattern Recognition):**
-        Takımların oyun kimyası eşleştirilir. Örneğin; iyi şut atan bir takım (Yüksek eFG%), kötü dış savunmaya (Yüksek Opp 3P%) karşı oynuyorsa sisteme **"Stil Bonusu"** eklenir.
+        **2. Akıllı Faktörler (Smart Factors):**
+        * **Ağırlıklı Form:** Son maçlar, eskisine göre daha çok puan kazandırır.
+        * **Volatilite:** Çok üçlük atan takımların sürpriz ihtimali (standart sapma) artırılır.
+        * **Net Rating:** Takımın oyun dominasyonu güce eklenir.
 
         **3. Monte Carlo Simülasyonu:**
-        İki takımın hesaplanan güç puanları, 12 puanlık standart sapma (varyans) ile **10.000 kez** sanal maçta çarpıştırılır.
+        İki takımın gücü, hesaplanan volatilite ile **10.000 kez** sanal maçta çarpıştırılır.
         """)
     with c2:
         st.image(
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/1200px-Normal_Distribution_PDF.svg.png",
             caption="Normal Dağılım Modeli")
 
+# --- SIDEBAR ---
 with st.sidebar:
     st.header("Kontrol Paneli")
     st.info("Kaynaklar: **B-Ref** & **ESPN**")
 
     if st.button("🔄 Verileri Güncelle", type="secondary"):
-        with st.spinner("Veriler çekiliyor..."):
+        with st.spinner("Web siteleri taranıyor...(Biraz zaman alabilir)"):
             try:
                 fetch_all_nba_data()
                 clear_cache()
-                st.success("Veriler güncellendi!")
+                st.success("Veri seti başarıyla yenilendi!")
             except Exception as e:
                 st.error(f"Hata: {e}")
 
@@ -66,8 +68,12 @@ with st.sidebar:
     if os.path.exists("data/raw/nba_master_data_2026.csv"):
         df_check = pd.read_csv("data/raw/nba_master_data_2026.csv")
         st.success(f"{len(df_check)} Takım Hazır")
+        with st.expander("Mevcut Takım Listesi"):
+            teams_display = df_check['Team'].sort_values().reset_index(drop=True)
+            teams_display.index += 1
+            st.dataframe(teams_display, use_container_width=True)
     else:
-        st.error("Veri yok!")
+        st.error("Veri dosyası bulunamadı! Lütfen güncelleyin.")
 
 if 'sim' not in st.session_state:
     try:
@@ -84,56 +90,93 @@ else:
 
 if teams:
     st.divider()
+
     c1, c2, c3 = st.columns([1, 0.2, 1])
 
     with c1:
-        home_team = st.selectbox("Ev Sahibi", teams, index=0)
+        st.subheader("🏠 Ev Sahibi")
+        home_team = st.selectbox("Ev Seç", teams, index=0, key="home", label_visibility="collapsed")
+
     with c3:
+        st.subheader("🚌 Deplasman")
         away_options = [t for t in teams if t != home_team]
-        away_team = st.selectbox("Deplasman", away_options, index=0)
+        away_team = st.selectbox("Dep Seç", away_options, index=0, key="away", label_visibility="collapsed")
+
     with c2:
-        st.markdown("<h2 style='text-align:center; padding-top:10px;'>VS</h2>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: center; font-size: 2em; padding-top: 15px; color: #888;'>VS</div>",
+                    unsafe_allow_html=True)
+
+    st.write("")
+    with st.expander("Gelişmiş Ayarlar (Sakatlık & Yorgunluk)", expanded=True):
+        h_data = sim.get_team_stats(home_team)
+        a_data = sim.get_team_stats(away_team)
+
+        h_stars = [s.strip() for s in str(h_data.get('Top_Stars', '')).split(',') if s.strip()]
+        a_stars = [s.strip() for s in str(a_data.get('Top_Stars', '')).split(',') if s.strip()]
+
+        col_h, col_sep, col_a = st.columns([1, 0.1, 1])
+
+        with col_h:
+            st.markdown(f"**{home_team}**")
+            home_missing = st.multiselect("Eksik Oyuncular (-5 Puan)", h_stars, key="h_miss")
+
+            h_b2b_auto = h_data.get('Is_B2B', False)
+            h_b2b_override = st.checkbox(f"Yorgunluk (B2B)? {'(Otomatik: Evet)' if h_b2b_auto else ''}",
+                                         value=h_b2b_auto, key="h_b2b")
+
+        with col_a:
+            st.markdown(f"**{away_team}**")
+            away_missing = st.multiselect("Eksik Oyuncular (-5 Puan)", a_stars, key="a_miss")
+
+            a_b2b_auto = a_data.get('Is_B2B', False)
+            a_b2b_override = st.checkbox(f"Yorgunluk (B2B)? {'(Otomatik: Evet)' if a_b2b_auto else ''}",
+                                         value=a_b2b_auto, key="a_b2b")
 
     st.write("")
 
     if st.button("10.000 MAÇI SİMÜLE ET", type="primary"):
-        result = sim.simulate_match(home_team, away_team)
+
+        result = sim.simulate_match(
+            home_team, away_team,
+            override_home_b2b=h_b2b_override,
+            override_away_b2b=a_b2b_override,
+            home_missing_players=home_missing,
+            away_missing_players=away_missing
+        )
 
         if result:
             st.divider()
 
             col_a, col_b = st.columns(2)
             with col_a:
-                color = "green" if result['home_win_pct'] > 50 else "red"
+                win_pct = result['home_win_pct']
+                color_h = "#4CAF50" if win_pct > 50 else "#FF5252"
                 st.markdown(
-                    f"<div style='text-align:center; border:2px solid {color}; padding:10px; border-radius:10px;'><h3>{home_team}</h3><h1 style='color:{color}'>%{result['home_win_pct']:.1f}</h1></div>",
+                    f"<div style='padding:15px; border-radius:10px; border: 2px solid {color_h}; text-align:center;'><h3 style='margin:0;'>{home_team}</h3><h1 style='color:{color_h}; margin:0;'>%{win_pct:.1f}</h1><p style='margin:0;'>Kazanma Olasılığı</p></div>",
                     unsafe_allow_html=True)
+
             with col_b:
-                color = "green" if result['away_win_pct'] > 50 else "red"
+                win_pct = result['away_win_pct']
+                color_a = "#4CAF50" if win_pct > 50 else "#FF5252"
                 st.markdown(
-                    f"<div style='text-align:center; border:2px solid {color}; padding:10px; border-radius:10px;'><h3>{away_team}</h3><h1 style='color:{color}'>%{result['away_win_pct']:.1f}</h1></div>",
+                    f"<div style='padding:15px; border-radius:10px; border: 2px solid {color_a}; text-align:center;'><h3 style='margin:0;'>{away_team}</h3><h1 style='color:{color_a}; margin:0;'>%{win_pct:.1f}</h1><p style='margin:0;'>Kazanma Olasılığı</p></div>",
                     unsafe_allow_html=True)
 
             st.markdown("---")
             st.markdown(
-                f"<h2 style='text-align:center;'>Beklenen Skor: {result['home_score']:.0f} - {result['away_score']:.0f}</h2>",
-                unsafe_allow_html=True)
-            st.markdown(
-                f"<p style='text-align:center; color:gray;'>Tahmini Toplam Sayı: <b>{result['total_score']:.1f}</b></p>",
+                f"<div style='text-align:center; padding:15px; background-color:#262730; border-radius:12px;'><h4 style='margin:0; color:#ddd;'>Beklenen Skor</h4><h1 style='margin:5px 0; color:white;'>{result['home_score']:.0f} - {result['away_score']:.0f}</h1><p style='margin:0; color:#888;'>Tahmini Toplam Sayı: <b>{result['total_score']:.1f}</b></p></div>",
                 unsafe_allow_html=True)
 
-            st.markdown("### Simülasyon Sonuçları")
-
+            st.markdown("###Simülasyon Analizi")
             sims = 10000
-            h_samples = np.random.normal(result['home_score'], 12.0, sims).round().astype(int)
-            a_samples = np.random.normal(result['away_score'], 12.0, sims).round().astype(int)
+            h_samples = np.random.normal(result['home_score'], 13.0, sims).round().astype(int)
+            a_samples = np.random.normal(result['away_score'], 13.0, sims).round().astype(int)
 
             tab1, tab2 = st.tabs(["En Olası Skorlar", "Fark Analizi"])
 
             with tab1:
                 scores = [f"{h}-{a}" for h, a in zip(h_samples, a_samples)]
                 score_counts = pd.Series(scores).value_counts().head(10)
-
                 fig1, ax1 = plt.subplots(figsize=(10, 5))
                 plt.style.use('dark_background')
                 colors = ['#FFD700' if i == 0 else '#4CAF50' for i in range(10)]
@@ -146,25 +189,14 @@ if teams:
 
             with tab2:
                 margins = h_samples - a_samples
-
                 bins = [-float('inf'), -10.5, -5.5, -0.5, 0.5, 5.5, 10.5, float('inf')]
-
-                labels = [
-                    f"{away_team} Farklı (11+)",
-                    f"{away_team} Orta (6-10)",
-                    f"{away_team} Yakın (1-5)",
-                    "Uzatma İhtimali",
-                    f"{home_team} Yakın (1-5)",
-                    f"{home_team} Orta (6-10)",
-                    f"{home_team} Farklı (11+)"
-                ]
-
+                labels = [f"{away_team} Farklı (11+)", f"{away_team} Orta (6-10)", f"{away_team} Yakın (1-5)",
+                          "Uzatma İhtimali", f"{home_team} Yakın (1-5)", f"{home_team} Orta (6-10)",
+                          f"{home_team} Farklı (11+)"]
                 cats = pd.cut(margins, bins=bins, labels=labels)
                 cat_counts = cats.value_counts().sort_index()
-
                 fig2, ax2 = plt.subplots(figsize=(10, 5))
                 bar_colors = ['#FF5252'] * 3 + ['gray'] + ['#4CAF50'] * 3
-
                 bars2 = ax2.bar(cat_counts.index, cat_counts.values, color=bar_colors)
                 ax2.bar_label(bars2, fmt='%d', padding=3)
                 ax2.set_xticklabels(cat_counts.index, rotation=45, ha='right')
@@ -173,13 +205,33 @@ if teams:
                 st.pyplot(fig2)
 
             st.markdown("---")
+            st.subheader("Neden Bu Sonuç?")
             d = result['details']
-            st.write("#### Neden Bu Sonuç?")
 
-            comp_df = pd.DataFrame({
-                "Faktör": ["Saha Avantajı", "Form (L10)", "Seri", "Stil Eşleşmesi"],
-                f"{home_team}": [f"+{d['home_adv']:.1f}", d['home_last10'], f"{d['home_streak']:.1f}",
-                                 f"{d['home_style']:.1f}"],
-                f"{away_team}": ["-", d['away_last10'], f"{d['away_streak']:.1f}", f"{d['away_style']:.1f}"]
-            })
-            st.table(comp_df)
+            h_miss_pen = d['h_missing_count'] * -5.0
+            a_miss_pen = d['a_missing_count'] * -5.0
+
+            analysis_data = {
+                "Analiz Faktörü": ["Saha Avantajı", "Ağırlıklı Form", "Stil Eşleşmesi", "Net Rating Bonusu",
+                                   "Yorgunluk Cezası", "Eksik Oyuncu Cezası"],
+                f"{home_team} (Ev)": [
+                    f"+{d['home_adv']:.1f}",
+                    f"{d['home_form']:.1f}",
+                    f"{d['home_style']:.1f}",
+                    f"{d['h_net_bonus']:.1f}",
+                    f"{d['h_fatigue']:.1f}",
+                    f"{h_miss_pen:.1f}"
+                ],
+                f"{away_team} (Dep)": [
+                    "-",
+                    f"{d['away_form']:.1f}",
+                    f"{d['away_style']:.1f}",
+                    f"{d['a_net_bonus']:.1f}",
+                    f"{d['a_fatigue']:.1f}",
+                    f"{a_miss_pen:.1f}"
+                ]
+            }
+            st.table(pd.DataFrame(analysis_data))
+
+            st.info(
+                "Not: **Ağırlıklı Form**, son maçların skorlarına ve serilere daha fazla önem veren özel bir algoritmadır.")

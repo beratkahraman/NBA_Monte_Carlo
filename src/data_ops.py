@@ -3,6 +3,7 @@ import time
 import pandas as pd
 import re
 import io
+import datetime
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -12,48 +13,31 @@ from selenium.webdriver.chrome.options import Options
 SEASON = 2026
 
 SLUG_MAP = {
-    "atl": "Atlanta Hawks",
-    "bos": "Boston Celtics",
-    "bkn": "Brooklyn Nets",
-    "cha": "Charlotte Hornets",
-    "chi": "Chicago Bulls",
-    "cle": "Cleveland Cavaliers",
-    "dal": "Dallas Mavericks",
-    "den": "Denver Nuggets",
-    "det": "Detroit Pistons",
-    "gs": "Golden State Warriors",
-    "hou": "Houston Rockets",
-    "ind": "Indiana Pacers",
-    "lac": "Los Angeles Clippers",
-    "lal": "Los Angeles Lakers",
-    "mem": "Memphis Grizzlies",
-    "mia": "Miami Heat",
-    "mil": "Milwaukee Bucks",
-    "min": "Minnesota Timberwolves",
+    "atl": "Atlanta Hawks", "bos": "Boston Celtics", "bkn": "Brooklyn Nets",
+    "cha": "Charlotte Hornets", "chi": "Chicago Bulls", "cle": "Cleveland Cavaliers",
+    "dal": "Dallas Mavericks", "den": "Denver Nuggets", "det": "Detroit Pistons",
+    "gs": "Golden State Warriors", "hou": "Houston Rockets", "ind": "Indiana Pacers",
+    "lac": "Los Angeles Clippers", "lal": "Los Angeles Lakers", "mem": "Memphis Grizzlies",
+    "mia": "Miami Heat", "mil": "Milwaukee Bucks", "min": "Minnesota Timberwolves",
     "no": "New Orleans Pelicans", "nop": "New Orleans Pelicans",
     "ny": "New York Knicks", "nyk": "New York Knicks",
-    "okc": "Oklahoma City Thunder",
-    "orl": "Orlando Magic",
-    "phi": "Philadelphia 76ers",
-    "phx": "Phoenix Suns",
-    "por": "Portland Trail Blazers",
-    "sac": "Sacramento Kings",
+    "okc": "Oklahoma City Thunder", "orl": "Orlando Magic", "phi": "Philadelphia 76ers",
+    "phx": "Phoenix Suns", "por": "Portland Trail Blazers", "sac": "Sacramento Kings",
     "sa": "San Antonio Spurs", "sas": "San Antonio Spurs",
-    "tor": "Toronto Raptors",
-    "utah": "Utah Jazz", "uta": "Utah Jazz",
+    "tor": "Toronto Raptors", "utah": "Utah Jazz", "uta": "Utah Jazz",
     "wsh": "Washington Wizards", "was": "Washington Wizards"
 }
 
 
 def get_driver():
     chrome_options = Options()
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-
 
 def clean_bref_name(name):
     name = str(name).replace('*', '')
@@ -64,16 +48,13 @@ def clean_bref_name(name):
 def extract_teams_from_links_espn(html_source):
     soup = BeautifulSoup(html_source, 'html.parser')
     teams_found = []
-
     seen = set()
-
     for a in soup.find_all('a', href=True):
         href = a['href']
         if "/nba/team/_/name/" in href:
             try:
                 parts = href.split("/name/")[1].split("/")
                 slug = parts[0].lower()
-
                 if slug in SLUG_MAP:
                     team_name = SLUG_MAP[slug]
                     if team_name not in seen:
@@ -81,7 +62,6 @@ def extract_teams_from_links_espn(html_source):
                         seen.add(team_name)
             except:
                 continue
-
     return teams_found
 
 
@@ -93,6 +73,77 @@ def extract_table_literal(html_content, table_id):
     return None
 
 
+def scrape_top_scorers(driver):
+    print("3/4: Yıldız Oyuncular Tespit Ediliyor...")
+    url = f"https://www.basketball-reference.com/leagues/NBA_{SEASON}_per_game.html"
+    driver.get(url)
+    time.sleep(3)
+
+    html = driver.page_source
+    tbl = extract_table_literal(html, 'per_game_stats')
+    if not tbl:
+        print("UYARI: Oyuncu istatistikleri çekilemedi.")
+        return pd.DataFrame()
+
+    df = pd.read_html(io.StringIO(tbl))[0]
+    df = df[df['Player'] != 'Player']
+    df['PTS'] = pd.to_numeric(df['PTS'], errors='coerce')
+
+    BREF_TEAM_MAP = {
+        "ATL": "Atlanta Hawks", "BOS": "Boston Celtics", "BRK": "Brooklyn Nets", "CHI": "Chicago Bulls",
+        "CHO": "Charlotte Hornets", "CLE": "Cleveland Cavaliers", "DAL": "Dallas Mavericks", "DEN": "Denver Nuggets",
+        "DET": "Detroit Pistons", "GSW": "Golden State Warriors", "HOU": "Houston Rockets", "IND": "Indiana Pacers",
+        "LAC": "Los Angeles Clippers", "LAL": "Los Angeles Lakers", "MEM": "Memphis Grizzlies", "MIA": "Miami Heat",
+        "MIL": "Milwaukee Bucks", "MIN": "Minnesota Timberwolves", "NOP": "New Orleans Pelicans",
+        "NYK": "New York Knicks",
+        "OKC": "Oklahoma City Thunder", "ORL": "Orlando Magic", "PHI": "Philadelphia 76ers", "PHO": "Phoenix Suns",
+        "POR": "Portland Trail Blazers", "SAC": "Sacramento Kings", "SAS": "San Antonio Spurs",
+        "TOR": "Toronto Raptors",
+        "UTA": "Utah Jazz", "WAS": "Washington Wizards"
+    }
+
+    star_list = []
+    for abbr, full_name in BREF_TEAM_MAP.items():
+        team_players = df[df['Team'] == abbr].sort_values('PTS', ascending=False).head(2)
+        if not team_players.empty:
+            stars = ", ".join(team_players['Player'].tolist())
+            star_list.append({'Team': full_name, 'Top_Stars': stars})
+
+    return pd.DataFrame(star_list)
+
+
+def scrape_fatigue(driver):
+    print("4/4: Fikstür ve Yorgunluk Analizi...")
+    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+    month = yesterday.month
+    day = yesterday.day
+    year = yesterday.year
+
+    url = f"https://www.basketball-reference.com/boxscores/?month={month}&day={day}&year={year}"
+    driver.get(url)
+    time.sleep(2)
+
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+
+    played_yesterday = []
+    summaries = soup.find_all('div', class_='game_summary')
+    for summary in summaries:
+        links = summary.find_all('a', href=True)
+        for link in links:
+            if "/teams/" in link['href']:
+                team_name = link.text
+                for _, full_name in SLUG_MAP.items():
+                    if team_name in full_name:
+                        played_yesterday.append(full_name)
+                        break
+
+    played_yesterday = list(set(played_yesterday))
+    df_fatigue = pd.DataFrame({'Team': played_yesterday})
+    df_fatigue['Is_B2B'] = True
+    return df_fatigue
+
+
 def fetch_all_nba_data():
     driver = get_driver()
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -101,7 +152,7 @@ def fetch_all_nba_data():
 
     try:
         url_adv = f"https://www.basketball-reference.com/leagues/NBA_{SEASON}.html"
-        print(f"1/2: Güç Verileri (B-Ref) Çekiliyor...")
+        print(f"1/4: Güç ve Volatilite Verileri (B-Ref) Çekiliyor...")
         driver.get(url_adv)
         time.sleep(3)
         html_source = driver.page_source
@@ -133,6 +184,9 @@ def fetch_all_nba_data():
                 stats['Off_eFG'] = get_f('eFG%', 0.54)
                 stats['Off_TOV'] = get_f('TOV%', 13.0)
                 stats['Off_ORB'] = get_f('ORB%', 24.0)
+
+                stats['Off_3PAr'] = get_f('3PAr', 0.40)
+                stats['Net_Rtg'] = get_f('NRtg', 0.0)
 
                 ft = row.get('FT/FGA') if 'FT/FGA' in row else row.get('FTr', 0.20)
                 stats['Off_FT_Rate'] = float(ft) if ft else 0.20
@@ -169,54 +223,41 @@ def fetch_all_nba_data():
         df_adv.fillna({'Opp_3P_Pct': 0.36, 'Opp_TRB': 44.0}, inplace=True)
         print(f"   -> B-Ref Tamam: {len(df_adv)} takım.")
 
-        print(f"2/2: Form Verileri (ESPN) Çekiliyor...")
+        print(f"2/4: Form Verileri (ESPN) Çekiliyor...")
         driver.get("https://www.espn.com/nba/standings")
         time.sleep(3)
         espn_source = driver.page_source
 
         real_team_names = extract_teams_from_links_espn(espn_source)
-
         dfs_espn = pd.read_html(io.StringIO(espn_source))
 
         stats_frames = []
         if len(dfs_espn) >= 4:
-            e_stats = dfs_espn[1]
-            if isinstance(e_stats.columns, pd.MultiIndex): e_stats.columns = e_stats.columns.droplevel(0)
-            stats_frames.append(e_stats)
-
+            e_stats = dfs_espn[1];
             w_stats = dfs_espn[3]
+            if isinstance(e_stats.columns, pd.MultiIndex): e_stats.columns = e_stats.columns.droplevel(0)
             if isinstance(w_stats.columns, pd.MultiIndex): w_stats.columns = w_stats.columns.droplevel(0)
-            stats_frames.append(w_stats)
-
-            df_stats_raw = pd.concat(stats_frames, ignore_index=True)
+            df_stats_raw = pd.concat([e_stats, w_stats], ignore_index=True)
         else:
             return print("HATA: ESPN tablo yapısı değişmiş.")
 
         clean_espn = []
-
         df_stats_raw.columns = [str(c).upper() for c in df_stats_raw.columns]
 
         if len(real_team_names) == len(df_stats_raw):
             print(f"   -> Link Eşleşmesi Başarılı: {len(real_team_names)} takım bulundu.")
-
             for i in range(len(real_team_names)):
                 team_name = real_team_names[i]
                 row = df_stats_raw.iloc[i]
-
-                home = row.get('HOME', '0-0')
-                road = row.get('AWAY', '0-0')
-                if road == '0-0': road = row.get('ROAD', '0-0')
-
                 clean_espn.append({
                     'Team': team_name,
-                    'Home': home,
-                    'Road': road,
-                    'Last_10': row.get('L10', '5-5'),
-                    'Streak': row.get('STRK', '')
+                    'Home': df_stats_raw.iloc[i].get('HOME', '0-0'),
+                    'Road': df_stats_raw.iloc[i].get('AWAY', '0-0'),
+                    'Last_10': df_stats_raw.iloc[i].get('L10', '5-5'),
+                    'Streak': df_stats_raw.iloc[i].get('STRK', '')
                 })
         else:
-            print(
-                f"UYARI: Link sayısı ({len(real_team_names)}) ile Tablo satır sayısı ({len(df_stats_raw)}) uyuşmuyor!")
+            print(f"UYARI: Link sayısı ({len(real_team_names)}) ile Tablo uyuşmuyor!")
             min_len = min(len(real_team_names), len(df_stats_raw))
             for i in range(min_len):
                 clean_espn.append({
@@ -228,17 +269,30 @@ def fetch_all_nba_data():
                 })
 
         df_espn = pd.DataFrame(clean_espn).drop_duplicates(subset=['Team'])
-        print(f"   -> ESPN Form Verileri Hazır: {len(df_espn)} takım.")
+        print(f"   -> ESPN Form Hazır: {len(df_espn)} takım.")
+
+        df_stars = scrape_top_scorers(driver)
+        df_fatigue = scrape_fatigue(driver)
 
         print("Veriler Birleştiriliyor...")
         final_df = pd.merge(df_adv, df_espn, on='Team', how='inner')
-        final_df = final_df.sort_values('Team')
 
+        if not df_stars.empty:
+            final_df = pd.merge(final_df, df_stars, on='Team', how='left')
+            final_df['Top_Stars'] = final_df['Top_Stars'].fillna("")
+
+        if not df_fatigue.empty:
+            final_df = pd.merge(final_df, df_fatigue, on='Team', how='left')
+            final_df['Is_B2B'] = final_df['Is_B2B'].fillna(False)
+        else:
+            final_df['Is_B2B'] = False
+
+        final_df = final_df.sort_values('Team')
         output_file = os.path.join(output_dir, f'nba_master_data_{SEASON}.csv')
         final_df.to_csv(output_file, index=False)
 
         print("-" * 50)
-        print(f"BAŞARILI: {len(final_df)} takımın verisi hazır.")
+        print(f"BAŞARILI: {len(final_df)} takımın GELİŞMİŞ verisi hazır.")
         print("-" * 50)
 
         if len(final_df) < 30:
