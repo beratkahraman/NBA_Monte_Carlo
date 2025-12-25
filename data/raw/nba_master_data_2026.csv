@@ -1,31 +1,31 @@
 Team,Pace,ORtg,DRtg,Off_eFG,Off_TOV,Off_ORB,Off_3PAr,Net_Rtg,Off_FT_Rate,Opp_3P_Pct,Opp_TRB,Home,Road,Last_10,Streak,Top_Stars,Is_B2B
-Atlanta Hawks,101.9,115.7,116.4,0.56,13.3,23.3,0.42,-0.7,0.195,0.363,45.4,5-9,10-7,2-8,L4,"Jalen Johnson, Nickeil Alexander-Walker",False
-Boston Celtics,95.7,121.2,114.9,0.556,10.8,29.3,0.473,6.3,0.166,0.369,42.6,10-5,8-6,8-2,W3,"Jaylen Brown, Derrick White",True
-Brooklyn Nets,97.8,111.6,116.8,0.53,14.2,24.8,0.484,-5.2,0.221,0.374,43.2,4-11,5-8,6-4,W2,"Michael Porter Jr., Cam Thomas",False
-Charlotte Hornets,99.5,114.4,118.5,0.536,14.0,27.5,0.455,-4.1,0.216,0.387,40.8,7-8,3-12,4-6,W1,"Miles Bridges, LaMelo Ball",True
-Chicago Bulls,102.9,115.2,118.7,0.555,12.9,23.8,0.424,-3.5,0.204,0.369,45.6,7-6,7-9,5-5,W4,"Coby White, Josh Giddey",False
-Cleveland Cavaliers,101.3,117.0,115.2,0.542,11.9,26.8,0.473,1.8,0.207,0.372,45.2,11-8,6-6,5-5,W2,"Donovan Mitchell, Evan Mobley",True
-Dallas Mavericks,101.5,109.4,113.2,0.524,13.5,22.7,0.372,-3.8,0.221,0.325,48.0,9-9,3-9,6-4,W1,"Anthony Davis, Cooper Flagg",True
-Denver Nuggets,99.0,125.4,116.3,0.592,11.8,25.7,0.39,9.1,0.237,0.349,41.3,9-5,12-3,7-3,L1,"Nikola Jokić, Jamal Murray",True
-Detroit Pistons,100.6,117.0,110.3,0.536,13.1,32.3,0.347,6.7,0.232,0.347,41.5,12-2,11-4,8-2,W3,"Cade Cunningham, Jalen Duren",True
-Golden State Warriors,99.6,114.2,112.3,0.542,14.2,26.0,0.497,1.9,0.211,0.34,45.2,9-4,6-11,5-5,W2,"Stephen Curry, Jimmy Butler",True
-Houston Rockets,96.5,122.4,113.5,0.554,13.8,37.6,0.332,8.9,0.224,0.346,38.4,8-2,9-8,4-6,L2,"Kevin Durant, Alperen Şengün",False
-Indiana Pacers,100.2,108.7,116.9,0.496,12.0,24.8,0.408,-8.2,0.224,0.335,47.8,5-11,1-13,2-8,L6,"Pascal Siakam, Bennedict Mathurin",True
-Los Angeles Clippers,97.0,113.2,118.7,0.544,14.7,24.0,0.428,-5.5,0.235,0.381,42.4,5-8,3-13,3-7,W2,"James Harden, Kawhi Leonard",False
-Los Angeles Lakers,99.2,119.0,117.8,0.57,13.7,25.6,0.405,1.2,0.273,0.385,40.2,7-4,12-5,5-5,L2,"Luka Dončić, Austin Reaves",False
-Memphis Grizzlies,101.1,112.6,114.1,0.524,13.0,26.1,0.422,-1.5,0.213,0.367,44.7,6-8,8-8,6-4,W1,"Jaren Jackson Jr., Ja Morant",True
-Miami Heat,104.2,114.9,112.6,0.543,12.0,23.1,0.379,2.3,0.216,0.344,47.9,10-5,5-10,2-8,L3,"Norman Powell, Tyler Herro",False
-Milwaukee Bucks,98.9,113.5,117.4,0.574,13.8,19.8,0.44,-3.9,0.172,0.359,44.8,8-8,4-10,4-6,W1,"Giannis Antetokounmpo, Kevin Porter Jr.",False
-Minnesota Timberwolves,100.0,117.8,113.0,0.557,12.8,26.3,0.429,4.8,0.236,0.348,43.6,12-5,8-5,8-2,W3,"Anthony Edwards, Julius Randle",False
-New Orleans Pelicans,100.2,113.6,120.3,0.524,12.5,27.4,0.348,-6.7,0.222,0.354,45.3,6-12,2-11,5-5,L1,"Zion Williamson, Trey Murphy III",True
-New York Knicks,98.4,122.6,114.7,0.565,11.8,30.4,0.439,7.9,0.206,0.367,41.2,14-2,5-7,7-3,L1,"Jalen Brunson, Karl-Anthony Towns",False
-Oklahoma City Thunder,100.2,120.4,104.5,0.569,11.2,21.7,0.417,15.9,0.228,0.366,44.2,14-0,12-3,7-3,L1,"Shai Gilgeous-Alexander, Chet Holmgren",True
-Orlando Magic,100.5,115.9,113.7,0.533,12.4,27.3,0.373,2.2,0.256,0.36,42.6,10-4,7-8,5-5,W1,"Franz Wagner, Paolo Banchero",True
-Philadelphia 76ers,99.5,115.7,114.2,0.526,12.1,27.3,0.412,1.5,0.229,0.342,45.8,9-8,7-4,6-4,L1,"Tyrese Maxey, Joel Embiid",False
-Phoenix Suns,99.1,114.9,114.7,0.543,13.9,28.5,0.435,0.2,0.191,0.356,42.9,10-5,6-8,4-6,W1,"Devin Booker, Dillon Brooks",False
-Portland Trail Blazers,102.2,114.1,117.4,0.52,14.3,30.8,0.452,-3.3,0.247,0.355,44.7,5-8,7-10,4-6,L2,"Deni Avdija, Shaedon Sharpe",True
-Sacramento Kings,100.9,109.3,119.6,0.522,12.5,22.1,0.339,-10.3,0.201,0.353,46.7,4-10,3-13,2-8,L1,"Zach LaVine, DeMar DeRozan",False
-San Antonio Spurs,100.4,119.1,112.8,0.559,12.7,27.3,0.419,6.3,0.232,0.361,41.8,11-2,10-5,9-1,W7,"Victor Wembanyama, De'Aaron Fox",False
-Toronto Raptors,99.1,114.1,113.0,0.546,13.1,24.8,0.372,1.1,0.192,0.339,43.8,8-7,10-6,4-6,W1,"Brandon Ingram, RJ Barrett",False
-Utah Jazz,102.0,115.1,122.4,0.532,13.3,27.2,0.433,-7.3,0.245,0.379,44.9,7-10,3-9,4-6,L4,"Lauri Markkanen, Keyonte George",True
-Washington Wizards,101.2,110.6,123.8,0.533,13.6,24.4,0.405,-13.2,0.184,0.369,49.3,2-10,3-13,3-7,L2,"Alex Sarr, CJ McCollum",False
+Atlanta Hawks,102.1,115.6,116.4,0.56,13.2,23.0,0.421,-0.8,0.193,0.362,45.5,5-9,10-7,2-8,L4,"Jalen Johnson, Nickeil Alexander-Walker",True
+Boston Celtics,95.7,121.2,114.9,0.556,10.8,29.3,0.473,6.3,0.166,0.369,42.6,10-5,8-6,8-2,W3,"Jaylen Brown, Derrick White",False
+Brooklyn Nets,97.8,111.8,116.5,0.53,14.3,25.0,0.486,-4.7,0.225,0.37,43.2,4-11,5-8,6-4,W2,"Michael Porter Jr., Cam Thomas",True
+Charlotte Hornets,99.3,115.1,118.5,0.537,13.7,27.6,0.458,-3.4,0.216,0.383,41.1,7-8,3-12,4-6,W1,"Miles Bridges, LaMelo Ball",True
+Chicago Bulls,103.1,115.3,118.5,0.556,13.0,23.7,0.424,-3.2,0.205,0.367,45.4,7-6,7-9,5-5,W4,"Coby White, Josh Giddey",True
+Cleveland Cavaliers,101.4,117.5,115.1,0.545,11.9,27.0,0.473,2.4,0.203,0.373,45.2,11-8,6-6,5-5,W2,"Donovan Mitchell, Evan Mobley",True
+Dallas Mavericks,101.4,110.2,113.8,0.527,13.4,22.9,0.369,-3.6,0.219,0.331,47.6,9-9,3-9,6-4,W1,"Anthony Davis, Cooper Flagg",True
+Denver Nuggets,99.0,125.7,116.9,0.595,11.8,25.6,0.393,8.8,0.233,0.35,41.1,9-5,12-3,7-3,L1,"Nikola Jokić, Jamal Murray",True
+Detroit Pistons,100.6,117.6,110.8,0.539,13.1,32.6,0.347,6.8,0.231,0.346,41.5,12-2,11-4,8-2,W3,"Cade Cunningham, Jalen Duren",True
+Golden State Warriors,99.6,114.2,112.3,0.542,14.2,26.0,0.497,1.9,0.211,0.34,45.2,9-4,6-11,5-5,W2,"Stephen Curry, Jimmy Butler",False
+Houston Rockets,96.3,122.3,114.4,0.553,13.7,37.5,0.333,7.9,0.221,0.353,38.2,8-2,9-8,4-6,L2,"Kevin Durant, Alperen Şengün",True
+Indiana Pacers,100.1,108.3,116.7,0.495,12.0,24.5,0.407,-8.4,0.225,0.335,47.8,5-11,1-13,2-8,L6,"Pascal Siakam, Bennedict Mathurin",True
+Los Angeles Clippers,96.8,114.1,118.7,0.548,14.6,23.8,0.43,-4.6,0.238,0.378,42.4,5-8,3-13,3-7,W2,"Kawhi Leonard, James Harden",False
+Los Angeles Lakers,99.0,118.9,118.6,0.569,13.7,25.9,0.405,0.3,0.271,0.385,40.1,7-4,12-5,5-5,L2,"Luka Dončić, Austin Reaves",False
+Memphis Grizzlies,101.2,113.3,114.4,0.528,13.0,26.0,0.425,-1.1,0.213,0.366,44.5,6-8,8-8,6-4,W1,"Jaren Jackson Jr., Ja Morant",True
+Miami Heat,103.9,114.3,112.8,0.54,12.1,23.1,0.378,1.5,0.216,0.345,48.0,10-5,5-10,2-8,L3,"Norman Powell, Tyler Herro",True
+Milwaukee Bucks,98.9,113.5,116.6,0.574,13.8,19.7,0.438,-3.1,0.173,0.356,44.6,8-8,4-10,4-6,W1,"Giannis Antetokounmpo, Kevin Porter Jr.",True
+Minnesota Timberwolves,100.0,117.6,112.6,0.556,12.7,26.1,0.431,5.0,0.234,0.349,44.0,12-5,8-5,8-2,W3,"Anthony Edwards, Julius Randle",True
+New Orleans Pelicans,100.4,113.6,120.7,0.523,12.5,27.3,0.345,-7.1,0.222,0.356,45.4,6-12,2-11,5-5,L1,"Zion Williamson, Trey Murphy III",True
+New York Knicks,98.5,121.9,114.7,0.561,12.0,30.6,0.434,7.2,0.203,0.365,41.2,14-2,5-7,7-3,L1,"Jalen Brunson, Karl-Anthony Towns",True
+Oklahoma City Thunder,99.9,120.4,105.7,0.571,11.3,21.9,0.415,14.7,0.223,0.369,43.8,14-0,12-3,7-3,L1,"Shai Gilgeous-Alexander, Chet Holmgren",True
+Orlando Magic,100.5,115.8,113.5,0.532,12.5,27.1,0.373,2.3,0.255,0.357,42.7,10-4,7-8,5-5,W1,"Franz Wagner, Paolo Banchero",True
+Philadelphia 76ers,99.5,115.4,114.3,0.523,12.2,27.5,0.409,1.1,0.234,0.344,45.5,9-8,7-4,6-4,L1,"Tyrese Maxey, Joel Embiid",True
+Phoenix Suns,98.9,115.7,114.7,0.547,13.8,28.6,0.434,1.0,0.191,0.357,42.7,10-5,6-8,4-6,W1,"Devin Booker, Dillon Brooks",True
+Portland Trail Blazers,102.1,113.9,117.2,0.52,14.3,30.7,0.45,-3.3,0.245,0.358,44.5,5-8,7-10,4-6,L2,"Deni Avdija, Shaedon Sharpe",True
+Sacramento Kings,100.9,109.8,120.1,0.522,12.4,22.8,0.34,-10.3,0.206,0.356,46.6,4-10,3-13,2-8,L1,"Zach LaVine, DeMar DeRozan",True
+San Antonio Spurs,100.1,119.8,113.1,0.563,12.6,27.3,0.42,6.7,0.232,0.362,41.6,11-2,10-5,9-1,W7,"Victor Wembanyama, De'Aaron Fox",True
+Toronto Raptors,98.9,114.2,112.5,0.546,13.2,25.1,0.375,1.7,0.192,0.337,43.6,8-7,10-6,4-6,W1,"Brandon Ingram, RJ Barrett",True
+Utah Jazz,102.1,115.4,122.7,0.533,13.2,27.2,0.435,-7.3,0.249,0.381,44.8,7-10,3-9,4-6,L4,"Lauri Markkanen, Keyonte George",True
+Washington Wizards,100.8,110.9,124.2,0.531,13.3,24.8,0.404,-13.3,0.184,0.37,49.4,2-10,3-13,3-7,L2,"CJ McCollum, Alex Sarr",True
