@@ -53,7 +53,7 @@ $$\text{Power} = \text{ORtg} + \text{Form}_{\text{weighted}} + \text{Style}_{\te
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/yourusername/nba-monte-carlo.git](https://github.com//beratkahraman/NBA_monte_carlo.git)
+git clone [https://github.com/beratkahraman/nba-monte-carlo.git](https://github.com//beratkahraman/NBA_monte_carlo.git)
 cd nba-monte-carlo
 ```
 
