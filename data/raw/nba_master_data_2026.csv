@@ -2,7 +2,7 @@ Team,Pace,ORtg,DRtg,Off_eFG,Off_TOV,Off_ORB,Off_3PAr,Net_Rtg,Off_FT_Rate,Opp_3P_
 Atlanta Hawks,101.7,116.1,113.7,0.554,12.3,24.4,0.429,2.4,0.181,0.355,45.2,24-17,22-19,6-4,L1,"Jalen Johnson, Nickeil Alexander-Walker",False
 Boston Celtics,94.8,120.8,112.7,0.553,11.2,29.2,0.467,8.1,0.167,0.358,41.2,30-11,26-15,8-2,W2,"Jaylen Brown, Jayson Tatum",False
 Brooklyn Nets,97.1,108.7,119.0,0.52,14.3,23.6,0.455,-10.3,0.212,0.381,43.6,12-29,8-33,3-7,L3,"Michael Porter Jr., Cam Thomas",False
-Charlotte Hornets,96.8,119.4,114.4,0.552,13.5,30.5,0.487,5.0,0.2,0.359,39.3,21-20,23-18,6-4,W1,"Brandon Miller, LaMelo Ball",False
+Charlotte Hornets,96.8,119.4,114.4,0.552,13.5,30.5,0.487,5.0,0.2,0.359,39.3,21-20,23-18,6-4,W1,"Brandon Miller, LaMelo Ball",True
 Chicago Bulls,102.5,113.0,118.1,0.547,13.3,23.1,0.443,-5.1,0.191,0.368,45.7,18-23,13-28,2-8,L2,"Coby White, Collin Sexton",False
 Cleveland Cavaliers,99.9,119.2,115.1,0.561,12.2,26.9,0.442,4.1,0.206,0.372,43.2,27-14,25-16,7-3,W1,"Donovan Mitchell, James Harden",False
 Dallas Mavericks,101.7,111.2,116.5,0.527,12.6,23.2,0.355,-5.3,0.217,0.35,46.8,16-25,10-30,3-7,W1,"Cooper Flagg, Anthony Davis",False
@@ -21,8 +21,8 @@ New Orleans Pelicans,100.3,114.4,118.9,0.527,12.2,27.0,0.355,-4.5,0.222,0.35,45.
 New York Knicks,96.8,119.8,113.3,0.557,12.1,29.3,0.428,6.5,0.188,0.362,40.5,30-10,22-19,6-4,L1,"Jalen Brunson, Karl-Anthony Towns",False
 Oklahoma City Thunder,99.3,118.9,107.7,0.561,11.2,22.3,0.426,11.2,0.213,0.369,45.2,34-7,30-10,7-3,L2,"Shai Gilgeous-Alexander, Chet Holmgren",False
 Orlando Magic,100.0,114.9,114.3,0.531,12.4,25.0,0.386,0.6,0.249,0.353,43.3,25-15,19-20,7-3,L1,"Paolo Banchero, Franz Wagner",True
-Philadelphia 76ers,99.4,115.4,115.5,0.53,11.9,26.2,0.391,-0.1,0.222,0.353,45.3,23-18,22-19,6-4,W2,"Tyrese Maxey, Joel Embiid",True
-Phoenix Suns,97.2,115.4,113.9,0.537,12.8,28.9,0.453,1.5,0.176,0.347,43.7,25-16,20-21,5-5,W1,"Devin Booker, Dillon Brooks",False
+Philadelphia 76ers,99.4,115.4,115.5,0.53,11.9,26.2,0.391,-0.1,0.222,0.353,45.3,23-18,22-19,6-4,W2,"Tyrese Maxey, Joel Embiid",False
+Phoenix Suns,97.2,115.4,113.9,0.537,12.8,28.9,0.453,1.5,0.176,0.347,43.7,25-16,20-21,5-5,W1,"Devin Booker, Dillon Brooks",True
 Portland Trail Blazers,100.5,114.4,114.7,0.534,14.6,31.3,0.469,-0.3,0.214,0.358,43.0,24-17,18-23,7-3,W2,"Deni Avdija, Shaedon Sharpe",False
 Sacramento Kings,99.2,111.4,121.5,0.525,12.6,25.9,0.339,-10.1,0.198,0.379,43.9,15-26,7-34,3-7,L1,"Zach LaVine, DeMar DeRozan",False
 San Antonio Spurs,99.9,119.6,111.3,0.559,11.8,26.2,0.422,8.3,0.215,0.352,42.6,32-8,29-12,8-2,L1,"Victor Wembanyama, De'Aaron Fox",False
