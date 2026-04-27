@@ -4,7 +4,7 @@ Boston Celtics,94.8,120.8,112.7,0.553,11.2,29.2,0.467,8.1,0.167,0.358,41.2,30-11
 Brooklyn Nets,97.1,108.7,119.0,0.52,14.3,23.6,0.455,-10.3,0.212,0.381,43.6,12-29,8-33,3-7,L3,"Michael Porter Jr., Cam Thomas",False
 Charlotte Hornets,96.8,119.4,114.4,0.552,13.5,30.5,0.487,5.0,0.2,0.359,39.3,21-20,23-18,6-4,W1,"Brandon Miller, LaMelo Ball",False
 Chicago Bulls,102.5,113.0,118.1,0.547,13.3,23.1,0.443,-5.1,0.191,0.368,45.7,18-23,13-28,2-8,L2,"Coby White, Collin Sexton",False
-Cleveland Cavaliers,99.9,119.2,115.1,0.561,12.2,26.9,0.442,4.1,0.206,0.372,43.2,27-14,25-16,7-3,W1,"Donovan Mitchell, James Harden",False
+Cleveland Cavaliers,99.9,119.2,115.1,0.561,12.2,26.9,0.442,4.1,0.206,0.372,43.2,27-14,25-16,7-3,W1,"Donovan Mitchell, James Harden",True
 Dallas Mavericks,101.7,111.2,116.5,0.527,12.6,23.2,0.355,-5.3,0.217,0.35,46.8,16-25,10-30,3-7,W1,"Cooper Flagg, Anthony Davis",False
 Denver Nuggets,98.4,122.6,117.4,0.577,11.5,23.6,0.408,5.2,0.237,0.349,42.8,28-13,26-15,10-0,W12,"Nikola Jokić, Jamal Murray",False
 Detroit Pistons,99.3,117.9,109.7,0.546,13.0,30.9,0.345,8.2,0.223,0.345,40.5,31-9,28-13,8-2,W3,"Cade Cunningham, Jalen Duren",False
@@ -26,6 +26,6 @@ Phoenix Suns,97.2,115.4,113.9,0.537,12.8,28.9,0.453,1.5,0.176,0.347,43.7,25-16,2
 Portland Trail Blazers,100.5,114.4,114.7,0.534,14.6,31.3,0.469,-0.3,0.214,0.358,43.0,24-17,18-23,7-3,W2,"Deni Avdija, Shaedon Sharpe",True
 Sacramento Kings,99.2,111.4,121.5,0.525,12.6,25.9,0.339,-10.1,0.198,0.379,43.9,15-26,7-34,3-7,L1,"Zach LaVine, DeMar DeRozan",False
 San Antonio Spurs,99.9,119.6,111.3,0.559,11.8,26.2,0.422,8.3,0.215,0.352,42.6,32-8,29-12,8-2,L1,"Victor Wembanyama, De'Aaron Fox",True
-Toronto Raptors,98.4,115.9,113.0,0.546,12.2,25.5,0.363,2.9,0.204,0.349,42.9,24-17,22-19,6-4,W1,"Brandon Ingram, RJ Barrett",False
+Toronto Raptors,98.4,115.9,113.0,0.546,12.2,25.5,0.363,2.9,0.204,0.349,42.9,24-17,22-19,6-4,W1,"Brandon Ingram, RJ Barrett",True
 Utah Jazz,102.3,114.1,122.3,0.536,13.2,26.2,0.402,-8.2,0.218,0.372,45.7,14-27,8-33,1-9,L1,"Lauri Markkanen, Keyonte George",False
 Washington Wizards,101.4,111.0,122.7,0.535,13.6,24.1,0.403,-11.7,0.18,0.368,47.8,11-30,6-35,0-10,L10,"CJ McCollum, Alex Sarr",False
